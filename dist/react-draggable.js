@@ -708,12 +708,14 @@ function createCoreData(draggable /*: DraggableCore*/, x /*: number*/, y /*: num
 
 // Create an data exposed by <Draggable>'s events
 function createDraggableData(draggable /*: Draggable*/, coreData /*: DraggableData*/) /*: DraggableData*/ {
+  var scale = draggable.props.scale;
+
   return {
     node: coreData.node,
-    x: draggable.state.x + coreData.deltaX,
-    y: draggable.state.y + coreData.deltaY,
-    deltaX: coreData.deltaX,
-    deltaY: coreData.deltaY,
+    x: draggable.state.x + coreData.deltaX / scale,
+    y: draggable.state.y + coreData.deltaY / scale,
+    deltaX: coreData.deltaX / scale,
+    deltaY: coreData.deltaY / scale,
     lastX: draggable.state.x,
     lastY: draggable.state.y
   };
@@ -1325,6 +1327,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   defaultClassNameDragged: string,
   defaultPosition: ControlPosition,
   position: ControlPosition,
+  scale: number
 };*/
 
 var Draggable = function (_React$Component) {
@@ -1636,6 +1639,8 @@ Draggable.propTypes = _extends({}, _DraggableCore2.default.propTypes, {
     y: _propTypes2.default.number
   }),
 
+  scale: _propTypes2.default.number,
+
   /**
    * These properties should be defined on the child, not here.
    */
@@ -1650,7 +1655,8 @@ Draggable.defaultProps = _extends({}, _DraggableCore2.default.defaultProps, {
   defaultClassNameDragging: 'react-draggable-dragging',
   defaultClassNameDragged: 'react-draggable-dragged',
   defaultPosition: { x: 0, y: 0 },
-  position: null
+  position: null,
+  scale: 1
 });
 exports.default = Draggable;
 
